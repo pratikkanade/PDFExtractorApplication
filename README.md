@@ -19,7 +19,7 @@ API Development: Providing endpoints via FastAPI
 User Interface: A web-based interface built using Streamlit
 
 
-![Content Parsing and Deployment Architecture](https://github.com/pratikkanade/PDFExtractorApplication/blob/main/architecture_diagram.jpeg?raw=true)
+<!--![Content Parsing and Deployment Architecture](https://github.com/pratikkanade/PDFExtractorApplication/blob/main/architecture_diagram.jpeg?raw=true) -->
 
 
 ### Key Features
