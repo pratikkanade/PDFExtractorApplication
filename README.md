@@ -6,7 +6,7 @@ This project explores the feasibility of using open-source and enterprise tools 
 
 The project evaluates the trade-offs between open-source libraries like PyMuPDF, and BeautifulSoup versus an enterprise-grade service like Adobe PDF Services, comparing their performance, accuracy, and scalability. The extracted content is standardized using Docling and MarkItDown, with a comparison of their suitability for Markdown conversion.
 
-A full pipeline is implemented, consisting of:-
+A full pipeline is implemented, consisting of:
 
 Data Extraction: Parsing PDFs and scraping web pages
 
