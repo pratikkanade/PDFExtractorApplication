@@ -9,9 +9,13 @@ The project evaluates the trade-offs between open-source libraries like PyMuPDF,
 A full pipeline is implemented, consisting of:-
 
 Data Extraction: Parsing PDFs and scraping web pages
+
 Content Standardization: Formatting extracted text with Markdown
+
 Cloud Storage: Organizing processed files in an S3 bucket
+
 API Development: Providing endpoints via FastAPI
+
 User Interface: A web-based interface built using Streamlit
 
 
@@ -20,36 +24,63 @@ User Interface: A web-based interface built using Streamlit
 
 ### Key Features
 1. Data Extraction & Processing
+
 PDF Parsing:
-Open-source: PyMuPDF
+Open-source: PyMuPDF,
 Enterprise: Adobe Services
+
 Web Scraping:
-Open-source: BeautifulSoup
+Open-source: BeautifulSoup,
 Enterprise: Apify
+
 Comparison: Evaluation of tool accuracy, text quality, table/image preservation, and scalability
+
 2. Standardization & Markdown Conversion
+   
 Docling: Specialized for structured linguistic processing
+
 MarkItDown: More flexible for generic Markdown formatting
+
 Comparison: Pros/cons of both approaches in content structuring and integration
+
 3. File Organization & Storage (S3)
+   
 bigdatasystems(Bucket name)/pdf name/parser name/markdown file
+
 bigdatasystems(Bucket name)/pdf name/parser name/image folder/markdown file
+
 bigdatasystems(Bucket name)/pdf name/parser name/table folder/markdown file
-5. API Development with FastAPI
+
+4. API Development with FastAPI
+   
 /backend_fastapi/routes/fetch.py → defines a FastAPI endpoint that retrieves and returns the contents of a parsed file such as PDF or Web page from an Amazon S3 bucket. Fetches parsed markdown content from specific locations in an S3 bucket, with the location determined by the filename and the type of parser used.
+
 /backend_fastapi/routes/upload.py → defines two FastAPI endpoints for processing and uploading PDF files and webpages.
- /pdf endpoint: Accepts a PDF file upload and a parser type. Based on the parser type ("Open Source" or "Enterprise"), it processes the PDF using different functions. It uploads the processed content to an S3 bucket and returns a success message with the S3 file path.
+
+/pdf endpoint: Accepts a PDF file upload and a parser type. Based on the parser type ("Open Source" or "Enterprise"), it processes the PDF using different functions. It uploads the processed content to an S3 bucket and returns a success message with the S3 file path.
+ 
 /backend_fastapi/main.py → handles PDF uploads, parsing, and fetching of parsed Markdown files from S3
+
 The structure contains:
+
 The /upload endpoints handle PDF uploads and processing
+
 The /fetch endpoints retrieve parsed content
+
 This setup provides a clear organization for the API's functionality, separating upload and fetch operations into distinct modules
-6. Web Interface with Streamlit
-User uploads PDFs or inputs webpage URLs
-API triggers processing pipeline
-Processed Markdown files can be downloaded
-Deployed on Amazon Web Services for accessibility
-Evaluation & Findings
+
+5. Web Interface with Streamlit
+    
+User uploads PDFs or inputs webpage URLs.
+
+API triggers processing pipeline.
+
+Processed Markdown files can be downloaded.
+
+Deployed on Amazon Web Services for accessibility.
+
+6. Evaluation & Findings
+    
 The project documents a detailed comparison between open-source tools and enterprise solutions, highlighting factors such as:
 1. Accuracy of text, table, and image extraction
 2. Ease of integration into a larger pipeline
@@ -61,17 +92,12 @@ This Proof of Concept (PoC) aims to validate the feasibility of automating docum
 ### Implementation Pipeline
 
 1. Data Extraction & Processing
-
 PDF Parsing
-
 Open-source: PyMuPDF
-
 Enterprise: Adobe PDF Services
 
 Web Scraping
-
 Open-source: BeautifulSoup
-
 Enterprise: Apify
 
 Comparison Metrics: Text extraction accuracy, Table and image preservation quality, Scalability and performance, Ease of integration
