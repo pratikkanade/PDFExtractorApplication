@@ -1,4 +1,4 @@
-# Automated Document Extraction & Standardization System - Assignment 1
+## Automated Document Extraction & Standardization System
 
 ### Overview
 
