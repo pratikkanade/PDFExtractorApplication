@@ -6,6 +6,7 @@ from pathlib import Path
 import boto3
 from io import BytesIO
 from dotenv import load_dotenv
+import logging
 
 def upload_file_to_s3(file_content, bucket_name, s3_path):
 
@@ -24,9 +25,11 @@ def upload_file_to_s3(file_content, bucket_name, s3_path):
 
 
 
-def extract_and_save_images(file_name, file_stream, image_prefix):
+def extract_and_save_images(file_stream, image_prefix, bucket_name):
+#def extract_and_save_images(pdf_path, image_prefix, bucket_name):
     #os.makedirs(image_prefix, exist_ok=True)
     doc = fitz.open(stream=file_stream, filetype="pdf")
+    #doc = fitz.open(pdf_path)
     image_map = {}
     
     for page_num in range(len(doc)):
@@ -58,9 +61,11 @@ def extract_and_save_images(file_name, file_stream, image_prefix):
 
 
 
-def extract_and_save_tables(file_name, file_stream, table_prefix):
+def extract_and_save_tables(file_stream, table_prefix, bucket_name):
+#def extract_and_save_tables(pdf_path, table_prefix, bucket_name):    
     #os.makedirs(table_dir, exist_ok=True)
     doc = fitz.open(stream=file_stream, filetype="pdf")
+    #doc = fitz.open(pdf_path)
     table_map = {}
     
     for page_num in range(len(doc)):
@@ -94,6 +99,7 @@ def extract_and_save_tables(file_name, file_stream, table_prefix):
 
 
 def process_pdf_s3_upload(file_name, file_stream, bucket_name):
+#def process_pdf_s3_upload(pdf_path, bucket_name):    
     
     # Convert bytes into a file-like object
     #doc = BytesIO(file_content)
@@ -107,19 +113,23 @@ def process_pdf_s3_upload(file_name, file_stream, bucket_name):
 
 
     # Extract and save images and tables
-    image_map = extract_and_save_images(file_name, file_stream, image_prefix)
-    table_map = extract_and_save_tables(file_name, file_stream, table_prefix) 
+    image_map = extract_and_save_images(file_stream, image_prefix, bucket_name)
+    table_map = extract_and_save_tables(file_stream, table_prefix, bucket_name) 
+
+    #image_map = extract_and_save_images(pdf_path, image_prefix, bucket_name)
+    #table_map = extract_and_save_tables(pdf_path, table_prefix, bucket_name) 
 
     try:
         # Convert PDF to markdown
         doc = fitz.open(stream=file_stream, filetype="pdf")
+        #doc = fitz.open(pdf_path)
         markdown_content = ""   
 
         for page_num in range(len(doc)):
 
             # Get page content
-            page_text = pymupdf4llm.to_markdown(pdf_path, pages=[page_num])
-            #page_text = pymupdf4llm.to_markdown(pdf_path, pages=[page_num], exclude_tables=True)
+            page_text = pymupdf4llm.to_markdown(doc, pages=[page_num])
+            #page_text = pymupdf4llm.to_markdown(pdf_path, pages=[page_num])
 
             # Insert image references
             if page_num in image_map:
@@ -154,3 +164,10 @@ def process_pdf_s3_upload(file_name, file_stream, bucket_name):
     
     except Exception as e:
         logging.error(f"Error during PDF extraction: {str(e)}")    
+
+
+# Usage
+#pdf_path = r"C:\Users\Admin\Desktop\MS Data Architecture and Management\DAMG 7245 - Big Data Systems and Intelligence Analytics\Assignment 1\Images and Tables PDF.pdf"
+#bucket_name = "bigdatasystems"
+
+#process_pdf_s3_upload(pdf_path, bucket_name)
