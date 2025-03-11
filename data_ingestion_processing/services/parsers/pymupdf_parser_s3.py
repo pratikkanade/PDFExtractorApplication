@@ -1,3 +1,12 @@
+import pymupdf4llm
+import fitz
+import os
+import pandas as pd
+from pathlib import Path
+import boto3
+from io import BytesIO
+from dotenv import load_dotenv
+
 def upload_file_to_s3(file_content, bucket_name, s3_path):
 
     #load_dotenv()
